@@ -17,8 +17,7 @@ public abstract class Document {
 	 * Because this class is abstract, this is used only from subclasses.
 	 * @param text The text of the document.
 	 */
-	protected Document(String text)
-	{
+	protected Document(String text) {
 		this.text = text;
 	}
 	
@@ -29,8 +28,7 @@ public abstract class Document {
 	 * @return A List of tokens from the document text that match the regex 
 	 *   pattern
 	 */
-	protected List<String> getTokens(String pattern)
-	{
+	protected List<String> getTokens(String pattern) {
 		ArrayList<String> tokens = new ArrayList<String>();
 		Pattern tokSplitter = Pattern.compile(pattern);
 		Matcher m = tokSplitter.matcher(text);
@@ -62,14 +60,47 @@ public abstract class Document {
 	 *       is not considered a syllable unless the word has no other syllables. 
 	 *       You should consider y a vowel.
 	 */
-	protected int countSyllables(String word)
-	{
-		// TODO: Implement this method so that you can call it from the 
-	    // getNumSyllables method in BasicDocument (module 2) and 
-	    // EfficientDocument (module 3).
-	    return 0;
+	protected int countSyllables(String word) {
+        int numOfSyllables = 0;
+
+        for (int i = 0; i < word.length(); i++) {
+            if (currentCharacterIsAVowel(i, word) && !prevCharacterIsAVowel(i, word)) {
+                numOfSyllables++;
+            }
+        }
+
+        if (numOfSyllables > 1) {
+            int lastCharIndex = word.length() - 1;
+            char lastChar = word.charAt(lastCharIndex);
+            if (lastChar == 'e' && !prevCharacterIsAVowel(lastCharIndex,word)) {
+                numOfSyllables--;
+            }
+        }
+
+        return numOfSyllables;
 	}
-	
+
+	private boolean characterIsAVowel(char character) {
+		String ch = Character.toString(character);
+        return ch.matches("[AEIOUYaeiouy]");
+	}
+
+    private boolean currentCharacterIsAVowel(int i, String word) {
+        char character = word.charAt(i);
+        String ch = Character.toString(character);
+        return ch.matches("[AEIOUYaeiouy]");
+    }
+
+    private boolean prevCharacterIsAVowel(int i, String word) {
+        if (i == 0) {
+            return false;
+        }
+
+        char character = word.charAt(i - 1);
+        String ch = Character.toString(character);
+        return ch.matches("[AEIOUYaeiouy]");
+    }
+
 	/** A method for testing
 	 * 
 	 * @param doc The Document object to test
@@ -78,8 +109,7 @@ public abstract class Document {
 	 * @param sentences The expected number of sentences
 	 * @return true if the test case passed.  False otherwise.
 	 */
-	public static boolean testCase(Document doc, int syllables, int words, int sentences)
-	{
+	public static boolean testCase(Document doc, int syllables, int words, int sentences) {
 		System.out.println("Testing text: ");
 		System.out.print(doc.getText() + "\n....");
 		boolean passed = true;
@@ -128,14 +158,10 @@ public abstract class Document {
 	}
 	
 	/** return the Flesch readability score of this document */
-	public double getFleschScore()
-	{
+	public double getFleschScore() {
 	    // TODO: You will play with this method in week 1, and 
 		// then implement it in week 2
 
 	    return getText().length();
 	}
-	
-	
-	
 }

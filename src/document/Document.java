@@ -72,17 +72,12 @@ public abstract class Document {
         if (numOfSyllables > 1) {
             int lastCharIndex = word.length() - 1;
             char lastChar = word.charAt(lastCharIndex);
-            if (lastChar == 'e' && !prevCharacterIsAVowel(lastCharIndex,word)) {
+            if (lastChar == 'e' && !prevCharacterIsAVowel(lastCharIndex, word)) {
                 numOfSyllables--;
             }
         }
 
         return numOfSyllables;
-	}
-
-	private boolean characterIsAVowel(char character) {
-		String ch = Character.toString(character);
-        return ch.matches("[AEIOUYaeiouy]");
 	}
 
     private boolean currentCharacterIsAVowel(int i, String word) {
@@ -159,9 +154,10 @@ public abstract class Document {
 	
 	/** return the Flesch readability score of this document */
 	public double getFleschScore() {
-	    // TODO: You will play with this method in week 1, and 
-		// then implement it in week 2
+        double score = 206.835
+                - 1.015 * (getNumWords() / getNumSentences())
+                - 84.6 * (getNumSyllables() / getNumWords());
 
-	    return getText().length();
+        return score;
 	}
 }

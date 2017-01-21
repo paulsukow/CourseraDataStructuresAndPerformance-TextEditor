@@ -154,9 +154,7 @@ public abstract class Document {
 	
 	/** return the Flesch readability score of this document */
 	public double getFleschScore() {
-        double score = 206.835
-                - 1.015 * (getNumWords() / getNumSentences())
-                - 84.6 * (getNumSyllables() / getNumWords());
+        double score = 206.835 - 1.015 * ( (double)getNumWords() / (double)getNumSentences() ) - 84.6 * ( (double)getNumSyllables() / (double)getNumWords() );
 
         return score;
 	}

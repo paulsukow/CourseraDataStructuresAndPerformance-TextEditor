@@ -62,17 +62,24 @@ public abstract class Document {
 	 */
 	protected int countSyllables(String word) {
         int numOfSyllables = 0;
+		char[] charArray = word.toCharArray();
 
-        for (int i = 0; i < word.length(); i++) {
-            if (currentCharacterIsAVowel(i, word) && !prevCharacterIsAVowel(i, word)) {
-                numOfSyllables++;
-            }
-        }
+		for (int i = 0; i < charArray.length; i++) {
+			if (currentCharacterIsAVowel(charArray[i])) {
+				if (i == 0) {
+					numOfSyllables++;
+				} else if (!prevCharacterIsAVowel(charArray[i - 1])) {
+					numOfSyllables++;
+				}
+			}
+		}
 
         if (numOfSyllables > 1) {
-            int lastCharIndex = word.length() - 1;
-            char lastChar = word.charAt(lastCharIndex);
-            if (lastChar == 'e' && !prevCharacterIsAVowel(lastCharIndex, word)) {
+            int lastCharIndex = charArray.length - 1;
+            char lastChar = charArray[lastCharIndex];
+            char prevChar = charArray[lastCharIndex - 1];
+
+            if (lastChar == 'e' && !prevCharacterIsAVowel(prevChar)) {
                 numOfSyllables--;
             }
         }
@@ -80,21 +87,15 @@ public abstract class Document {
         return numOfSyllables;
 	}
 
-    private boolean currentCharacterIsAVowel(int i, String word) {
-        char character = word.charAt(i);
-        String ch = Character.toString(character);
-        return ch.matches("[AEIOUYaeiouy]");
-    }
+	private boolean currentCharacterIsAVowel(char character) {
+		String str = Character.toString(character);
+		return str.matches("[AEIOUYaeiouy]");
+	}
 
-    private boolean prevCharacterIsAVowel(int i, String word) {
-        if (i == 0) {
-            return false;
-        }
-
-        char character = word.charAt(i - 1);
-        String ch = Character.toString(character);
-        return ch.matches("[AEIOUYaeiouy]");
-    }
+	private boolean prevCharacterIsAVowel(char character) {
+		String ch = Character.toString(character);
+		return ch.matches("[AEIOUYaeiouy]");
+	}
 
 	/** A method for testing
 	 * 

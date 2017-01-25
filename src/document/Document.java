@@ -71,30 +71,27 @@ public abstract class Document {
 				} else if (!prevCharacterIsAVowel(charArray[i - 1])) {
 					numOfSyllables++;
 				}
+
+				if (i == charArray.length - 1 &&
+                        numOfSyllables > 1 &&
+                        charArray[i] == 'e' &&
+                        !prevCharacterIsAVowel(charArray[i - 1])) {
+                    numOfSyllables--;
+				}
 			}
 		}
-
-        if (numOfSyllables > 1) {
-            int lastCharIndex = charArray.length - 1;
-            char lastChar = charArray[lastCharIndex];
-            char prevChar = charArray[lastCharIndex - 1];
-
-            if (lastChar == 'e' && !prevCharacterIsAVowel(prevChar)) {
-                numOfSyllables--;
-            }
-        }
 
         return numOfSyllables;
 	}
 
 	private boolean currentCharacterIsAVowel(char character) {
-		String str = Character.toString(character);
-		return str.matches("[AEIOUYaeiouy]");
+		String str = Character.toString(character).toLowerCase();
+		return str.matches("[aeiouy]");
 	}
 
 	private boolean prevCharacterIsAVowel(char character) {
-		String ch = Character.toString(character);
-		return ch.matches("[AEIOUYaeiouy]");
+		String str = Character.toString(character).toLowerCase();
+		return str.matches("[aeiouy]");
 	}
 
 	/** A method for testing

@@ -79,7 +79,7 @@ public class BasicDocument extends Document
         List<String> words = getTokens("[a-zA-Z]+");
         int numOfSyllables = 0;
         for (String word : words) {
-            numOfSyllables = numOfSyllables + countSyllables(word);
+            numOfSyllables += countSyllables(word);
         }
 
         return numOfSyllables;

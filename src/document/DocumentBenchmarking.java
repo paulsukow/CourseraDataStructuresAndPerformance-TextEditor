@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 
 public class DocumentBenchmarking {
 
-	
 	public static void main(String [] args) {
 
 	    // Run each test more than once to get bigger numbers and less noise.
@@ -33,34 +32,29 @@ public class DocumentBenchmarking {
 		// THe number of characters to start with. 
 		// You can play around with this.
 		int start = 50000;
-		
-		// TODO: Fill in the rest of this method so that it runs two loops
-		// and prints out timing results as described in the assignment 
-		// instructions and following the pseudocode below.
-		for (int numToCheck = start; numToCheck < numSteps*increment + start; 
-				numToCheck += increment)
-		{
-			// numToCheck holds the number of characters that you should read from the 
-			// file to create both a BasicDocument and an EfficientDocument.  
-			
-			/* Each time through this loop you should:
-			 * 1. Print out numToCheck followed by a tab (\t) (NOT a newline)
-			 * 2. Read numToCheck characters from the file into a String
-			 *     Hint: use the helper method below.
-			 * 3. Time a loop that runs trials times (trials is the variable above) that:
-			 *     a. Creates a BasicDocument 
-			 *     b. Calls fleshScore on this document
-			 * 4. Print out the time it took to complete the loop in step 3 
-			 *      (on the same line as the first print statement) followed by a tab (\t)
-			 * 5. Time a loop that runs trials times (trials is the variable above) that:
-			 *     a. Creates an EfficientDocument 
-			 *     b. Calls fleshScore on this document
-			 * 6. Print out the time it took to complete the loop in step 5 
-			 *      (on the same line as the first print statement) followed by a newline (\n) 
-			 */  
-			 
+
+		for (int numToCheck = start; numToCheck < numSteps*increment + start; numToCheck += increment) {
+			String textToAnalysis = getStringFromFile(textfile, numToCheck);
+
+            long startTime = System.nanoTime();
+			for (int i = 0; i < trials; i++) {
+                BasicDocument basicDocument = new BasicDocument(textToAnalysis);
+                basicDocument.getFleschScore();
+            }
+            long endTime = System.nanoTime();
+            long basicDocumentTime = (endTime - startTime)/(10^9);
+
+
+            startTime = System.nanoTime();
+            for (int i = 0; i < trials; i++) {
+                EfficientDocument efficientDocument = new EfficientDocument(textToAnalysis);
+                efficientDocument.getFleschScore();
+            }
+            endTime = System.nanoTime();
+            long efficientDocumentTime = (endTime - startTime)/(10^9);
+
+            System.out.println(numToCheck + "\t" + basicDocumentTime + "\t" + efficientDocumentTime + "\n");
 		}
-	
 	}
 	
 	/** Get a specified number of characters from a text file
@@ -96,5 +90,4 @@ public class DocumentBenchmarking {
 		
 		return s.toString();
 	}
-	
 }

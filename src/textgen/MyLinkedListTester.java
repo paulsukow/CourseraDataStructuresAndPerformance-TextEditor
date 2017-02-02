@@ -5,8 +5,6 @@ package textgen;
 
 import static org.junit.Assert.*;
 
-import java.util.LinkedList;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,15 +42,13 @@ public class MyLinkedListTester {
 		list1.add(42);
 		
 	}
-
 	
 	/** Test if the get method is working correctly.
 	 */
 	/*You should not need to add much to this method.
 	 * We provide it as an example of a thorough test. */
 	@Test
-	public void testGet()
-	{
+	public void testGet() {
 		//test empty list, get should throw an exception
 		try {
 			emptyList.get(0);
@@ -99,64 +95,132 @@ public class MyLinkedListTester {
 		}
 		catch (IndexOutOfBoundsException e) {
 		}
-		
 	}
-	
 	
 	/** Test removing an element from the list.
 	 * We've included the example from the concept challenge.
 	 * You will want to add more tests.  */
 	@Test
-	public void testRemove()
-	{
+	public void testRemove() {
 		int a = list1.remove(0);
 		assertEquals("Remove: check a is correct ", 65, a);
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
-		
-		// TODO: Add more tests here
+
+        try {
+            emptyList.remove(0);
+            fail("Can't remove from empty list");
+        }
+        catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            emptyList.remove(-1);
+            fail("Can't remove from empty list");
+        }
+        catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            shortList.remove(shortList.size());
+            fail("Can't remove from empty list");
+        }
+        catch (IndexOutOfBoundsException e) {
+        }
 	}
 	
 	/** Test adding an element into the end of the list, specifically
 	 *  public boolean add(E element)
 	 * */
 	@Test
-	public void testAddEnd()
-	{
-        // TODO: implement this test
-		
+	public void testAddEnd() {
+		try {
+			shortList.add(null);
+            fail("No exception for null input");
+		}
+		catch (NullPointerException e) {
+		}
+
+		shortList.add("C");
+        assertEquals("C", shortList.get(shortList.size - 1));
 	}
 
-	
 	/** Test the size of the list */
 	@Test
-	public void testSize()
-	{
-		// TODO: implement this test
-	}
+	public void testSize() {
+        int ogSize = shortList.size();
+        shortList.add("C");
+        assertEquals(ogSize + 1, shortList.size());
 
-	
+        ogSize = shortList.size();
+        shortList.add(0, "D");
+        assertEquals(ogSize + 1, shortList.size());
+	}
 	
 	/** Test adding an element into the list at a specified index,
 	 * specifically:
 	 * public void add(int index, E element)
 	 * */
 	@Test
-	public void testAddAtIndex()
-	{
-        // TODO: implement this test
-		
+	public void testAddAtIndex() {
+        try {
+            shortList.add(0, null);
+            fail("Cannot add node for null data");
+        }
+        catch (NullPointerException e) {
+        }
+
+        try {
+            shortList.add(-1, "z");
+            fail("Check out of bounds");
+        }
+        catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            shortList.add(shortList.size() + 1, "z");
+            fail("Check out of bounds");
+        }
+        catch (IndexOutOfBoundsException e) {
+        }
+
+		String oldFirstItem = shortList.get(0);
+        String oldSecondItem = shortList.get(1);
+        shortList.add(0, "z");
+        assertEquals("z", shortList.get(0));
+        assertEquals(oldFirstItem, shortList.get(1));
+        assertEquals(oldSecondItem, shortList.get(2));
+
+        shortList.add(3, "y");
+        assertEquals("y", shortList.get(3));
 	}
 	
 	/** Test setting an element in the list */
 	@Test
-	public void testSet()
-	{
-	    // TODO: implement this test
-	    
+	public void testSet() {
+        try {
+            shortList.set(0, null);
+            fail("Cannot modify node for null data");
+        }
+        catch (NullPointerException e) {
+        }
+
+        try {
+            shortList.set(-1, "sss");
+            fail("Check out of bounds");
+        }
+        catch (IndexOutOfBoundsException e) {
+        }
+
+        try {
+            shortList.set(shortList.size(), "sss");
+            fail("Check out of bounds");
+        }
+        catch (IndexOutOfBoundsException e) {
+        }
+
+        int a = list1.set(0, 99);
+        assertEquals("Set: check a is correct ", 65, a);
+        assertEquals((Integer)99, list1.get(0));
 	}
-	
-	
-	// TODO: Optionally add more test methods.
-	
 }

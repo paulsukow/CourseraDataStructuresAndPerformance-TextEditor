@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  * @author UC San Diego Intermediate MOOC team
  *

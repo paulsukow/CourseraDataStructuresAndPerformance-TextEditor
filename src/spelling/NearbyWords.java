@@ -153,7 +153,7 @@ public class NearbyWords implements SpellingSuggest {
 		return suggestionList;
 	}
 
-    private void findNeighborWords(String curr, List<String> neighbors) {
+    public void findNeighborWords(String curr, List<String> neighbors) {
         substitution(curr, neighbors, true);
         insertions(curr, neighbors, true);
         deletions(curr, neighbors, true);
